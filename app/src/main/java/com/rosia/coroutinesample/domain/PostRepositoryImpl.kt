@@ -1,11 +1,9 @@
 package com.rosia.coroutinesample.domain
 
-import androidx.lifecycle.LiveData
 import com.rosia.coroutinesample.data.local.PostLocalModel
 import com.rosia.coroutinesample.data.mapper.PostMapper
 import com.rosia.coroutinesample.data.remote.PostRemoteModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,7 +25,7 @@ class PostRepositoryImpl @Inject constructor(
 	override suspend fun fetchPosts(): List<PostRemoteModel> {
 		return withContext(Dispatchers.IO) {
 			try {
-				val posts = async { postRemoteRepository.fetchPosts() }.await()
+				val posts = postRemoteRepository.fetchPosts()
 				val localPosts = posts.map {
 					PostMapper.mapToLocal(it)
 				}

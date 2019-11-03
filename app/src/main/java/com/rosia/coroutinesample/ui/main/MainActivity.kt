@@ -20,14 +20,14 @@ class MainActivity : DaggerAppCompatActivity() {
 
 		viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-		/*viewModel.fetchPosts()
+		viewModel.fetchPosts()
 		viewModel.postUseCase.observe(this, Observer { response ->
 			println(response)
-		})*/
+		})
 
-		viewModel.fetchLocalPost()
+		/*viewModel.fetchLocalPost()
 		viewModel.postLocalUseCase.observe(this, Observer { response ->
 			println("response: $response")
-		})
+		})*/
 	}
 }
