@@ -1,6 +1,5 @@
 package com.rosia.coroutinesample.data.local.postwithcomments
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 
@@ -8,5 +7,5 @@ import androidx.room.Query
 interface PostWithCommentsDao {
 
 	@Query("select * from posts")
-	suspend fun getPostWithComments(): List<PostWithComments>
+	fun getPostWithComments(): List<PostWithComments>
 }

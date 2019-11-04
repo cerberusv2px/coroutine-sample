@@ -23,6 +23,10 @@ class PostLocalImpl @Inject constructor(
 	}
 
 	override suspend fun getPostWithComments(): List<PostWithComments> {
+		/*	return liveData {
+				emitSource(databaseManager.getPostWithCommentDao().getPostWithComments())
+			}*/
+
 		return databaseManager.getPostWithCommentDao().getPostWithComments()
 	}
 }

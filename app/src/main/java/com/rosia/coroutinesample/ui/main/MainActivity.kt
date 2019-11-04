@@ -30,8 +30,8 @@ class MainActivity : DaggerAppCompatActivity() {
 
 		viewModel.fetchLocalPost()
 		viewModel.postLocalResponse.observe(this, Observer { response ->
-			print(response[0].toString())
-			textView.text = response[0].toString()
+			println("Response >>>>>> $response")
+		//	textView.text = response.toString()
 		})
 
 		viewModel.spinner.observe(this, Observer { show ->

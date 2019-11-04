@@ -1,5 +1,6 @@
 package com.rosia.coroutinesample.domain
 
+import androidx.lifecycle.LiveData
 import com.rosia.coroutinesample.data.local.comments.CommentLocalModel
 import com.rosia.coroutinesample.data.local.post.PostLocalModel
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments

@@ -3,6 +3,7 @@ package com.rosia.coroutinesample.ui.main
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments
@@ -20,7 +21,7 @@ class MainViewModel @Inject constructor(
 	private val _spinner = MutableLiveData<Boolean>()
 	private val _errorMessage = MutableLiveData<String?>()
 	private val _postUseCase = MutableLiveData<List<PostRemoteModel>>()
-	private var _postLocalUseCase = MutableLiveData<List<PostWithComments>>()
+	private var _postLocalUseCase = MediatorLiveData<List<PostWithComments>>()
 
 	val spinner: LiveData<Boolean>
 		get() = _spinner
@@ -54,7 +55,6 @@ class MainViewModel @Inject constructor(
 			} finally {
 				_spinner.value = false
 			}
-
 		}
 	}
 
@@ -63,8 +63,11 @@ class MainViewModel @Inject constructor(
 			try {
 				_spinner.value = true
 				val postList = repository.getPostWithComments()
-				_postLocalUseCase.value = postList
+				// _postLocalUseCase.value = postList.value
+				_postLocalUseCase.postValue(postList)
+				// _postLocalUseCase.value = postList.value
 			} catch (error: Exception) {
+				println(error.message)
 				_errorMessage.value = error.message ?: "Something went wrong"
 			} finally {
 				_spinner.value = false
