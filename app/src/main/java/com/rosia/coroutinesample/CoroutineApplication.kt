@@ -3,6 +3,7 @@ package com.rosia.coroutinesample
 import android.app.Activity
 import android.app.Application
 import com.rosia.coroutinesample.di.component.DaggerApplicationComponent
+import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
@@ -20,6 +21,7 @@ class CoroutineApplication : Application(), HasActivityInjector {
 	override fun onCreate() {
 		super.onCreate()
 		initializeDaggerComponent()
+		initializeLeakDetection()
 	}
 
 	private fun initializeDaggerComponent() {
@@ -27,5 +29,9 @@ class CoroutineApplication : Application(), HasActivityInjector {
 			.application(this)
 			.build()
 			.inject(this)
+	}
+
+	private fun initializeLeakDetection() {
+		if (BuildConfig.DEBUG) LeakCanary.install(this)
 	}
 }

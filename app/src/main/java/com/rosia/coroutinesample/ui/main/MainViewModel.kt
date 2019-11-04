@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rosia.coroutinesample.data.local.PostLocalModel
 import com.rosia.coroutinesample.data.remote.PostRemoteModel
 import com.rosia.coroutinesample.domain.PostRepositoryImpl
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,6 +18,11 @@ class MainViewModel @Inject constructor(
 
 	val postUseCase = MutableLiveData<List<PostRemoteModel>>()
 	val postLocalUseCase = MutableLiveData<List<PostLocalModel>>()
+
+	public override fun onCleared() {
+		viewModelScope.cancel()
+		super.onCleared()
+	}
 
 	fun fetchPosts() {
 		viewModelScope.launch {

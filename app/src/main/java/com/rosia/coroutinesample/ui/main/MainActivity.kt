@@ -30,4 +30,9 @@ class MainActivity : DaggerAppCompatActivity() {
 			println("response: $response")
 		})*/
 	}
+
+	override fun onDestroy() {
+		viewModel.onCleared()
+		super.onDestroy()
+	}
 }
