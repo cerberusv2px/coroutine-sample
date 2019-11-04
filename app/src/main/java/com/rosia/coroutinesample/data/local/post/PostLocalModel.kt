@@ -1,4 +1,4 @@
-package com.rosia.coroutinesample.data.local
+package com.rosia.coroutinesample.data.local.post
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

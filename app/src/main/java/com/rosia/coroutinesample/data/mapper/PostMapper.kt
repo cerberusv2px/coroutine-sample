@@ -1,6 +1,6 @@
 package com.rosia.coroutinesample.data.mapper
 
-import com.rosia.coroutinesample.data.local.PostLocalModel
+import com.rosia.coroutinesample.data.local.post.PostLocalModel
 import com.rosia.coroutinesample.data.remote.PostRemoteModel
 
 object PostMapper {

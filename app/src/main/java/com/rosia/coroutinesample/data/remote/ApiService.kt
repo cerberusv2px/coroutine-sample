@@ -6,4 +6,7 @@ interface ApiService {
 
 	@GET("posts")
 	suspend fun getPosts(): List<PostRemoteModel>
+
+	@GET("comments")
+	suspend fun getComments(): List<CommentRemoteModel>
 }

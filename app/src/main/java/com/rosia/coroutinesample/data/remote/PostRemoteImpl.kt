@@ -10,4 +10,8 @@ class PostRemoteImpl @Inject constructor(
 	override suspend fun fetchPosts(): List<PostRemoteModel> {
 		return apiService.getPosts()
 	}
+
+	override suspend fun fetchComments(): List<CommentRemoteModel> {
+		return apiService.getComments()
+	}
 }

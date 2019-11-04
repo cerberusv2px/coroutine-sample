@@ -23,15 +23,16 @@ class MainActivity : DaggerAppCompatActivity() {
 
 		viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-		viewModel.fetchPosts()
+		/*viewModel.fetchPosts()
 		viewModel.postRemoteResponse.observe(this, Observer { response ->
-			textView.text = response.toString()
-		})
-
-		/*viewModel.fetchLocalPost()
-		viewModel.postLocalResponse.observe(this, Observer { response ->
-			println("response: $response")
+			// textView.text = response.toString()
 		})*/
+
+		viewModel.fetchLocalPost()
+		viewModel.postLocalResponse.observe(this, Observer { response ->
+			print(response[0].toString())
+			textView.text = response[0].toString()
+		})
 
 		viewModel.spinner.observe(this, Observer { show ->
 			textView.visibility = if (!show) View.VISIBLE else View.INVISIBLE
@@ -45,6 +46,11 @@ class MainActivity : DaggerAppCompatActivity() {
 			}
 
 		})
+	}
+
+	override fun onResume() {
+		super.onResume()
+		// viewModel.fetchPosts()
 	}
 
 	override fun onDestroy() {
