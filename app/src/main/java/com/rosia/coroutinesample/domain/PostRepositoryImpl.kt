@@ -24,16 +24,13 @@ class PostRepositoryImpl @Inject constructor(
 
 	override suspend fun fetchPosts(): List<PostRemoteModel> {
 		return withContext(Dispatchers.IO) {
-			try {
-				val posts = postRemoteRepository.fetchPosts()
-				val localPosts = posts.map {
-					PostMapper.mapToLocal(it)
-				}
-				savePosts(localPosts)
-				posts
-			} catch (error: Exception) {
-				throw error
+			// throw ArrayIndexOutOfBoundsException("Index out of bound bitches")
+			val posts = postRemoteRepository.fetchPosts()
+			val localPosts = posts.map {
+				PostMapper.mapToLocal(it)
 			}
+			savePosts(localPosts)
+			posts
 
 		}
 	}
