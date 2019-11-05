@@ -6,6 +6,8 @@ import com.rosia.coroutinesample.data.local.post.PostLocalModel
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments
 import com.rosia.coroutinesample.data.remote.CommentRemoteModel
 import com.rosia.coroutinesample.data.remote.PostRemoteModel
+import com.rosia.coroutinesample.data.remote.apollo.ResultModel
+import com.rosia.coroutinesample.data.remote.apollo.RootModel
 
 interface PostRepository {
 
@@ -16,10 +18,12 @@ interface PostRepository {
 
 		suspend fun saveComments(comments: List<CommentLocalModel>)
 		fun getPostWithComments(): LiveData<List<PostWithComments>>
+
 	}
 
 	interface Remote {
 		suspend fun fetchPosts(): List<PostRemoteModel>
 		suspend fun fetchComments(): List<CommentRemoteModel>
+		suspend fun fetchRickAndMortyData(): List<ResultModel>
 	}
 }

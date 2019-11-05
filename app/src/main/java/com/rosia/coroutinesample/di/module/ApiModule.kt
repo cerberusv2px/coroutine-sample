@@ -1,6 +1,7 @@
 package com.rosia.coroutinesample.di.module
 
 import android.content.Context
+import com.apollographql.apollo.ApolloClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.rosia.coroutinesample.data.local.DatabaseManager
@@ -53,10 +54,18 @@ class ApiModule {
 		return retrofit.create(ApiService::class.java)
 	}
 
-
 	@Provides
 	@PerApplication
 	fun provideDatabaseManager(context: Context): DatabaseManager {
 		return DatabaseManager(context)
+	}
+
+	@Provides
+	@PerApplication
+	internal fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient {
+		return ApolloClient.builder()
+			.serverUrl("https://rickandmortyapi.com/graphql")
+			.okHttpClient(okHttpClient)
+			.build()
 	}
 }

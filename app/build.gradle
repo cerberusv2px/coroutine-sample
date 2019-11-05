@@ -5,6 +5,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.apollographql.android'
+
 
 
 android {
@@ -81,6 +83,11 @@ dependencies {
     def stethoVersion = "1.5.0"
     implementation "com.facebook.stetho:stetho:$stethoVersion"
     implementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+
+    def apolloVersion = "1.2.1"
+    implementation "com.apollographql.apollo:apollo-runtime:$apolloVersion"
+    implementation "com.apollographql.apollo:apollo-android-support:$apolloVersion"
+    implementation "com.apollographql.apollo:apollo-coroutines-support:1.2.1"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:1.5"
 

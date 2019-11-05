@@ -1,5 +1,6 @@
 package com.rosia.coroutinesample.di.module
 
+import com.apollographql.apollo.ApolloClient
 import com.rosia.coroutinesample.data.local.DatabaseManager
 import com.rosia.coroutinesample.data.local.PostLocalImpl
 import com.rosia.coroutinesample.data.remote.ApiService
@@ -14,9 +15,10 @@ class PostModule {
 
 	@Provides
 	fun providePostRemote(
-		apiService: ApiService
+		apiService: ApiService,
+		apolloClient: ApolloClient
 	): PostRepository.Remote {
-		return PostRemoteImpl(apiService)
+		return PostRemoteImpl(apiService, apolloClient)
 	}
 
 	@Provides

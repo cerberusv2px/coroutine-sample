@@ -8,6 +8,7 @@ import com.rosia.coroutinesample.data.mapper.CommentMapper
 import com.rosia.coroutinesample.data.mapper.PostMapper
 import com.rosia.coroutinesample.data.remote.CommentRemoteModel
 import com.rosia.coroutinesample.data.remote.PostRemoteModel
+import com.rosia.coroutinesample.data.remote.apollo.ResultModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -61,6 +62,12 @@ class PostRepositoryImpl @Inject constructor(
 	override suspend fun updatePost(title: String, id: Int) {
 		withContext(Dispatchers.IO) {
 			postLocalRepository.updatePost(title, id)
+		}
+	}
+
+	override suspend fun fetchRickAndMortyData(): List<ResultModel> {
+		return withContext(Dispatchers.IO) {
+			postRemoteRepository.fetchRickAndMortyData()
 		}
 	}
 }

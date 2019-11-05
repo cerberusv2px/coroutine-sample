@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.rosia.coroutinesample.R
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,26 +24,16 @@ class MainActivity : DaggerAppCompatActivity() {
 
 		viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-		/*viewModel.fetchPosts()
-		viewModel.postRemoteResponse.observe(this, Observer { response ->
-			// textView.text = response.toString()
-		})*/
-
-	/*	viewModel.fetchLocalPost()
-		viewModel.postLocalResponse.observe(this, Observer { response ->
-			textView.text = response[0].post.title.toString()
-		})*/
-
-		viewModel.fetchLocalPost().observe(this, Observer { response ->
-			textView.visibility = View.VISIBLE
-			progressBar.visibility = View.INVISIBLE
-			textView.text = response[0].post.title
+		viewModel.fetchRickMortyData()
+		viewModel.rickMortyResponse.observe(this, Observer { response ->
+			textView.text = response.toString()
+			// println(Gson().toJson(response))
 		})
 
-/*		viewModel.spinner.observe(this, Observer { show ->
+		viewModel.spinner.observe(this, Observer { show ->
 			textView.visibility = if (!show) View.VISIBLE else View.INVISIBLE
 			progressBar.visibility = if (show) View.VISIBLE else View.INVISIBLE
-		})*/
+		})
 
 		viewModel.errorMessage.observe(this, Observer { message ->
 			message?.let {
@@ -56,7 +47,6 @@ class MainActivity : DaggerAppCompatActivity() {
 			viewModel.updatePosts("testing only", 1)
 		}
 	}
-
 
 	override fun onDestroy() {
 		viewModel.onCleared()
