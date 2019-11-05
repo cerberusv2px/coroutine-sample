@@ -13,4 +13,7 @@ interface PostDao {
 
 	@Query("SELECT * FROM posts")
 	fun getAll(): List<PostLocalModel>
+
+	@Query("update posts set title =:title where id= :id")
+	fun updateTitle(title: String, id: Int)
 }

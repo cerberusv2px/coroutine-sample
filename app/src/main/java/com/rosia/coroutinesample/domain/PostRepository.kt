@@ -12,9 +12,10 @@ interface PostRepository {
 	interface Local {
 		suspend fun savePosts(posts: List<PostLocalModel>)
 		suspend fun getAllPosts(): List<PostLocalModel>
+		suspend fun updatePost(title: String, id: Int)
 
 		suspend fun saveComments(comments: List<CommentLocalModel>)
-		suspend fun getPostWithComments(): List<PostWithComments>
+		fun getPostWithComments(): LiveData<List<PostWithComments>>
 	}
 
 	interface Remote {

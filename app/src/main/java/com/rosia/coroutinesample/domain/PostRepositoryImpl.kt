@@ -54,9 +54,13 @@ class PostRepositoryImpl @Inject constructor(
 		postLocalRepository.saveComments(comments)
 	}
 
-	override suspend fun getPostWithComments(): List<PostWithComments> {
-		return withContext(Dispatchers.IO) {
-			postLocalRepository.getPostWithComments()
+	override fun getPostWithComments(): LiveData<List<PostWithComments>> {
+		return postLocalRepository.getPostWithComments()
+	}
+
+	override suspend fun updatePost(title: String, id: Int) {
+		withContext(Dispatchers.IO) {
+			postLocalRepository.updatePost(title, id)
 		}
 	}
 }
