@@ -23,26 +23,11 @@ class MainActivity : DaggerAppCompatActivity() {
 
 		viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-		/*viewModel.fetchPosts()
-		viewModel.postRemoteResponse.observe(this, Observer { response ->
-			// textView.text = response.toString()
-		})*/
-
-	/*	viewModel.fetchLocalPost()
-		viewModel.postLocalResponse.observe(this, Observer { response ->
-			textView.text = response[0].post.title.toString()
-		})*/
-
 		viewModel.fetchLocalPost().observe(this, Observer { response ->
 			textView.visibility = View.VISIBLE
 			progressBar.visibility = View.INVISIBLE
 			textView.text = response[0].post.title
 		})
-
-/*		viewModel.spinner.observe(this, Observer { show ->
-			textView.visibility = if (!show) View.VISIBLE else View.INVISIBLE
-			progressBar.visibility = if (show) View.VISIBLE else View.INVISIBLE
-		})*/
 
 		viewModel.errorMessage.observe(this, Observer { message ->
 			message?.let {

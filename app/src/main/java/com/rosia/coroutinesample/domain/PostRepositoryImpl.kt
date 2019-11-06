@@ -1,6 +1,7 @@
 package com.rosia.coroutinesample.domain
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.rosia.coroutinesample.data.local.comments.CommentLocalModel
 import com.rosia.coroutinesample.data.local.post.PostLocalModel
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments
@@ -55,7 +56,9 @@ class PostRepositoryImpl @Inject constructor(
 	}
 
 	override fun getPostWithComments(): LiveData<List<PostWithComments>> {
-		return postLocalRepository.getPostWithComments()
+		return liveData(Dispatchers.IO) {
+			emitSource(postLocalRepository.getPostWithComments())
+		}
 	}
 
 	override suspend fun updatePost(title: String, id: Int) {
