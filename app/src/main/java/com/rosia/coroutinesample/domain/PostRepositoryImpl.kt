@@ -10,6 +10,7 @@ import com.rosia.coroutinesample.data.mapper.PostMapper
 import com.rosia.coroutinesample.data.remote.CommentRemoteModel
 import com.rosia.coroutinesample.data.remote.PostRemoteModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -30,8 +31,12 @@ class PostRepositoryImpl @Inject constructor(
 
 	override suspend fun fetchPosts(): List<PostRemoteModel> {
 		return withContext(Dispatchers.IO) {
-			val posts = postRemoteRepository.fetchPosts()
-			val comments = postRemoteRepository.fetchComments()
+			val postJob = async { postRemoteRepository.fetchPosts() }
+			val commentJob = async { postRemoteRepository.fetchComments() }
+
+			val posts = postJob.await()
+			val comments = commentJob.await()
+
 			val localPosts = posts.map {
 				PostMapper.mapToLocal(it)
 			}

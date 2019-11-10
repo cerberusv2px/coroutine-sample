@@ -23,10 +23,15 @@ class MainActivity : DaggerAppCompatActivity() {
 
 		viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-		viewModel.fetchLocalPost().observe(this, Observer { response ->
+/*		viewModel.fetchLocalPost().observe(this, Observer { response ->
 			textView.visibility = View.VISIBLE
 			progressBar.visibility = View.INVISIBLE
 			textView.text = response[0].post.title
+		})*/
+
+		viewModel.fetchPosts()
+		viewModel.postRemoteResponse.observe(this, Observer { response ->
+			// println("Response: $response")
 		})
 
 		viewModel.errorMessage.observe(this, Observer { message ->
@@ -34,7 +39,11 @@ class MainActivity : DaggerAppCompatActivity() {
 				Snackbar.make(rootLayout, message, Snackbar.LENGTH_LONG).show()
 				viewModel.onErrorShown()
 			}
+		})
 
+		viewModel.spinner.observe(this, Observer { show ->
+			textView.visibility = if (!show) View.VISIBLE else View.INVISIBLE
+			progressBar.visibility = if (show) View.VISIBLE else View.INVISIBLE
 		})
 
 		button.setOnClickListener {
@@ -42,9 +51,13 @@ class MainActivity : DaggerAppCompatActivity() {
 		}
 	}
 
-
 	override fun onDestroy() {
 		viewModel.onCleared()
 		super.onDestroy()
+	}
+
+	override fun onResume() {
+		super.onResume()
+		// viewModel.fetchPosts()
 	}
 }
