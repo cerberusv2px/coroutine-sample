@@ -1,5 +1,6 @@
 package com.rosia.coroutinesample.data.local
 
+import androidx.lifecycle.LiveData
 import com.rosia.coroutinesample.data.local.comments.CommentLocalModel
 import com.rosia.coroutinesample.data.local.post.PostLocalModel
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments
@@ -22,7 +23,11 @@ class PostLocalImpl @Inject constructor(
 		databaseManager.getCommentsDao().insert(comments)
 	}
 
-	override suspend fun getPostWithComments(): List<PostWithComments> {
+	override fun getPostWithComments(): LiveData<List<PostWithComments>> {
 		return databaseManager.getPostWithCommentDao().getPostWithComments()
+	}
+
+	override suspend fun updatePost(title: String, id: Int) {
+		databaseManager.getUserDao().updateTitle(title, id)
 	}
 }

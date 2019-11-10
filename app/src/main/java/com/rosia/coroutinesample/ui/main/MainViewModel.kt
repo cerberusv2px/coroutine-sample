@@ -3,6 +3,7 @@ package com.rosia.coroutinesample.ui.main
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments
@@ -17,22 +18,22 @@ class MainViewModel @Inject constructor(
 	private val repository: PostRepositoryImpl
 ) : AndroidViewModel(application) {
 
-	private val _spinner = MutableLiveData<Boolean>()
-	private val _errorMessage = MutableLiveData<String?>()
-	private val _postUseCase = MutableLiveData<List<PostRemoteModel>>()
-	private var _postLocalUseCase = MutableLiveData<List<PostWithComments>>()
+	private val loadingUseCase = MutableLiveData<Boolean>()
+	private val errorUseCase = MutableLiveData<String?>()
+	private val postRemoteUseCase = MutableLiveData<List<PostRemoteModel>>()
+	private var postLocalUseCase = MediatorLiveData<List<PostWithComments>>()
 
 	val spinner: LiveData<Boolean>
-		get() = _spinner
+		get() = loadingUseCase
 
 	val postRemoteResponse: LiveData<List<PostRemoteModel>>
-		get() = _postUseCase
+		get() = postRemoteUseCase
 
 	val postLocalResponse: LiveData<List<PostWithComments>>
-		get() = _postLocalUseCase
+		get() = postLocalUseCase
 
 	val errorMessage: LiveData<String?>
-		get() = _errorMessage
+		get() = errorUseCase
 
 	public override fun onCleared() {
 		viewModelScope.cancel()
@@ -40,36 +41,30 @@ class MainViewModel @Inject constructor(
 	}
 
 	fun onErrorShown() {
-		_errorMessage.value = null
+		errorUseCase.value = null
 	}
 
 	fun fetchPosts() {
 		viewModelScope.launch {
 			try {
-				_spinner.value = true
+				loadingUseCase.value = true
 				val postList = repository.fetchPosts()
-				_postUseCase.value = postList
+				postRemoteUseCase.value = postList
 			} catch (error: Exception) {
-				_errorMessage.value = error.message ?: "Something went wrong"
+				errorUseCase.value = error.message ?: "Something went wrong"
 			} finally {
-				_spinner.value = false
+				loadingUseCase.value = false
 			}
-
 		}
 	}
 
-	fun fetchLocalPost() {
-		viewModelScope.launch {
-			try {
-				_spinner.value = true
-				val postList = repository.getPostWithComments()
-				_postLocalUseCase.value = postList
-			} catch (error: Exception) {
-				_errorMessage.value = error.message ?: "Something went wrong"
-			} finally {
-				_spinner.value = false
-			}
+	fun fetchLocalPost(): LiveData<List<PostWithComments>> {
+		return repository.getPostWithComments()
+	}
 
+	fun updatePosts(title: String, id: Int) {
+		viewModelScope.launch {
+			repository.updatePost(title, id)
 		}
 	}
 }

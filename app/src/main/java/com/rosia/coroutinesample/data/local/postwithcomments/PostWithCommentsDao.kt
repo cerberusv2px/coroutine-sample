@@ -7,6 +7,6 @@ import androidx.room.Query
 @Dao
 interface PostWithCommentsDao {
 
-	@Query("select * from posts")
-	suspend fun getPostWithComments(): List<PostWithComments>
+	@Query("select * from posts where id = 1")
+	fun getPostWithComments(): LiveData<List<PostWithComments>>
 }
