@@ -8,7 +8,8 @@ class PostRemoteImpl @Inject constructor(
 ) : PostRepository.Remote {
 
 	override suspend fun fetchPosts(): List<PostRemoteModel> {
-		return apiService.getPosts()
+		val temp = apiService.getPosts()
+		return temp.filter { it.id < 20 }
 	}
 
 	override suspend fun fetchComments(): List<CommentRemoteModel> {

@@ -2,6 +2,7 @@ package com.rosia.coroutinesample.ui.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +33,7 @@ class MainActivity : DaggerAppCompatActivity() {
 		viewModel.fetchPosts()
 		viewModel.postRemoteResponse.observe(this, Observer { response ->
 			// println("Response: $response")
+			Toast.makeText(this, "Size: ${response.size}", Toast.LENGTH_LONG).show()
 		})
 
 		viewModel.errorMessage.observe(this, Observer { message ->

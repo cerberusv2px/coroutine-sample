@@ -1,10 +1,14 @@
 package com.rosia.coroutinesample.data.local
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import com.rosia.coroutinesample.data.local.comments.CommentLocalModel
 import com.rosia.coroutinesample.data.local.post.PostLocalModel
 import com.rosia.coroutinesample.data.local.postwithcomments.PostWithComments
 import com.rosia.coroutinesample.domain.PostRepository
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PostLocalImpl @Inject constructor(
